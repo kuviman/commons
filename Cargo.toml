@@ -1,0 +1,8 @@
+[package]
+name = "prelude"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+rand = "*"
+num = "*"
