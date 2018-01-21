@@ -1,2 +1,2 @@
 [workspace]
-members = ["prelude", "web-build"]
+members = ["prelude"]
