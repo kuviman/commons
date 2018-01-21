@@ -4,7 +4,6 @@ pub struct Timer {
     start: std::time::Instant,
 }
 
-#[cfg(not(target_os = "emscripten"))]
 fn to_secs(duration: std::time::Duration) -> f64 {
     duration.as_secs() as f64 + duration.subsec_nanos() as f64 / 1e9
 }
