@@ -49,14 +49,14 @@ mod color;
 mod algebra;
 mod range;
 mod timer;
-mod atomic;
+mod acell;
 mod stable_fn;
 
 pub use color::*;
 pub use algebra::*;
 pub use range::*;
 pub use timer::*;
-pub use atomic::*;
+pub use acell::*;
 pub use stable_fn::*;
 
 pub fn thread_rng() -> Box<Rng> {

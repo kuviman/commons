@@ -1,16 +1,16 @@
 use ::*;
 
-pub struct AtomicCell<T: Copy> {
+pub struct ACell<T: Copy> {
     inner: Mutex<T>,
 }
 
-impl<T: Copy + Debug> Debug for AtomicCell<T> {
+impl<T: Copy + Debug> Debug for ACell<T> {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(fmt, "{:?}", self.get())
     }
 }
 
-impl<T: Copy> AtomicCell<T> {
+impl<T: Copy> ACell<T> {
     pub fn new(value: T) -> Self {
         Self {
             inner: Mutex::new(value),
