@@ -2,7 +2,7 @@ language: rust
 script:
   - cargo test --verbose --all
 after_success: >
-  cargo doc \
+  cargo doc --no-deps --all \
 
   && echo '<meta http-equiv=refresh content=0;url=prelude/index.html>' >
   target/doc/index.html && \
