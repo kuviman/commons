@@ -1,5 +1,6 @@
 use ::*;
 
+#[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Vec4<T = f64> {
     pub x: T,

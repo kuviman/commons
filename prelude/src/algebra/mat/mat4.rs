@@ -1,5 +1,6 @@
 use ::*;
 
+#[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Mat4<T: Num + Copy = f64> {
     values: [T; 16],

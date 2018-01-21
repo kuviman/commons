@@ -54,9 +54,9 @@ macro_rules! vec_impl_ops {
         }
 
         impl<T: Copy + Mul<Output=T>> Mul<T> for $name<T> {
-            type Output = $name<T>;
-            fn mul(self, rhs: T) -> $name<T> {
-                $name {
+            type Output = Self;
+            fn mul(self, rhs: T) -> Self {
+                Self {
                     $($f: self.$f * rhs,)*
                 }
             }
@@ -69,9 +69,9 @@ macro_rules! vec_impl_ops {
         }
 
         impl<T: Copy + Div<Output=T>> Div<T> for $name<T> {
-            type Output = $name<T>;
-            fn div(self, rhs: T) -> $name<T> {
-                $name {
+            type Output = Self;
+            fn div(self, rhs: T) -> Self {
+                Self {
                     $($f: self.$f / rhs,)*
                 }
             }
