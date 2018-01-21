@@ -12,6 +12,17 @@ mod vec4;
 
 pub use self::vec4::*;
 
+macro_rules! left_mul_impl {
+    ($name:ident for $($typ:ty),*) => {$(
+        impl Mul<$name<$typ>> for $typ {
+            type Output = $name<$typ>;
+            fn mul(self, rhs: $name<$typ>) -> $name<$typ> {
+                rhs * self
+            }
+        }
+    )*}
+}
+
 macro_rules! vec_impl_ops {
     ($name:ident : $($f:ident),*) => {
         impl<T: Add<Output=T>> Add for $name<T> {
@@ -61,6 +72,8 @@ macro_rules! vec_impl_ops {
                 }
             }
         }
+
+        left_mul_impl!($name for f32, f64, i8, i16, i32, i64, u8, u16, u32, u64, isize, usize);
 
         impl<T: Copy + MulAssign> MulAssign<T> for $name<T> {
             fn mul_assign(&mut self, rhs: T) {
