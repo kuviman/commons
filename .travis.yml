@@ -1,14 +1,16 @@
 language: rust
 script:
   - cargo test --verbose --all
-after_success: >
-  cargo doc --no-deps --all \
-
-  && echo '<meta http-equiv=refresh content=0;url=prelude/index.html>' >
-  target/doc/index.html && \
-
-  sudo pip install ghp-import && \
-
-  ghp-import -n target/doc && \
-
-  git push -qf https://${TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+before_deploy:
+  - cargo doc --no-deps --all
+  - >-
+    echo '<meta http-equiv=refresh content=0;url=prelude/index.html>' >
+    target/doc/index.html
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $TOKEN
+  keep-history: true
+  local-dir: target/doc
+  on:
+    branch: master
