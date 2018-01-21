@@ -2,8 +2,10 @@ use ::*;
 
 #[derive(Debug)]
 pub struct AtomicCell<T: Copy> {
-    #[cfg(target_os = "emscripten")] inner: Cell<T>,
-    #[cfg(not(target_os = "emscripten"))] inner: Mutex<T>,
+    #[cfg(target_os = "emscripten")]
+    inner: Cell<T>,
+    #[cfg(not(target_os = "emscripten"))]
+    inner: Mutex<T>,
 }
 
 #[cfg(target_os = "emscripten")]

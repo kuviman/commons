@@ -1,8 +1,10 @@
 use ::*;
 
 pub struct Timer {
-    #[cfg(target_os = "emscripten")] start_time: f64,
-    #[cfg(not(target_os = "emscripten"))] start: std::time::Instant,
+    #[cfg(target_os = "emscripten")]
+    start_time: f64,
+    #[cfg(not(target_os = "emscripten"))]
+    start: std::time::Instant,
 }
 
 #[cfg(target_os = "emscripten")]
