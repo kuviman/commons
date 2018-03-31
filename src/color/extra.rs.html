@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `geom/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `color/src/extra.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
-    <title>lib.rs.html -- source</title>
+    <title>extra.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
@@ -65,22 +65,18 @@
 <span id="9"> 9</span>
 <span id="10">10</span>
 <span id="11">11</span>
-<span id="12">12</span>
-<span id="13">13</span>
 </pre><pre class="rust ">
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>)]</span>
+<span class="kw">use</span> ::<span class="kw-2">*</span>;
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">prelude</span>;
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident">prelude</span>::<span class="kw-2">*</span>;
-
-<span class="kw">mod</span> <span class="ident">vec</span>;
-<span class="kw">mod</span> <span class="ident">mat</span>;
-<span class="kw">mod</span> <span class="ident">rect</span>;
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">vec</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">mat</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">rect</span>::<span class="kw-2">*</span>;
+<span class="kw">impl</span> <span class="ident">Color</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">distance_to</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">Color</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+        <span class="kw">let</span> <span class="ident">dr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">r</span> <span class="op">-</span> <span class="ident">other</span>.<span class="ident">r</span>;
+        <span class="kw">let</span> <span class="ident">dg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">g</span> <span class="op">-</span> <span class="ident">other</span>.<span class="ident">g</span>;
+        <span class="kw">let</span> <span class="ident">db</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">b</span> <span class="op">-</span> <span class="ident">other</span>.<span class="ident">b</span>;
+        <span class="kw">let</span> <span class="ident">da</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">a</span> <span class="op">-</span> <span class="ident">other</span>.<span class="ident">a</span>;
+        (<span class="ident">dr</span> <span class="op">*</span> <span class="ident">dr</span> <span class="op">+</span> <span class="ident">dg</span> <span class="op">*</span> <span class="ident">dg</span> <span class="op">+</span> <span class="ident">db</span> <span class="op">*</span> <span class="ident">db</span> <span class="op">+</span> <span class="ident">da</span> <span class="op">*</span> <span class="ident">da</span>).<span class="ident">sqrt</span>()
+    }
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -141,7 +137,7 @@
 
     <script>
         window.rootPath = "../../";
-        window.currentCrate = "geom";
+        window.currentCrate = "color";
     </script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
