@@ -1,7 +1,6 @@
 #![deny(warnings)]
 
 pub extern crate num;
-pub extern crate rand;
 
 #[doc(no_inline)]
 pub use std::rc::Rc;
@@ -36,27 +35,6 @@ pub use std::mem;
 pub use std::thread;
 #[doc(no_inline)]
 pub use num::{clamp, Float, Integer, Num};
-#[doc(no_inline)]
-pub use rand::{random, thread_rng, Rng};
-
-pub fn random_range<T: PartialOrd + rand::distributions::range::SampleRange>(low: T, high: T) -> T {
-    thread_rng().gen_range(low, high)
-}
-
-pub fn random_shuffle<T>(values: &mut [T]) {
-    thread_rng().shuffle(values);
-}
-
-/// Chooses random element
-///
-/// # Panics
-///
-/// Panics if values is an empty slice
-pub fn random_choose<T>(values: &[T]) -> &T {
-    thread_rng()
-        .choose(values)
-        .expect("Can not choose from an empty slice")
-}
 
 pub fn min_max<T: PartialOrd>(a: T, b: T) -> (T, T) {
     if a < b {
