@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 extern crate prelude;
 
 pub(crate) use prelude::*;
