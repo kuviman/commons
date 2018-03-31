@@ -11,6 +11,16 @@ pub fn vec2<T>(x: T, y: T) -> Vec2<T> {
     Vec2 { x, y }
 }
 
+impl<T> From<[T; 2]> for Vec2<T> {
+    fn from(mut v: [T; 2]) -> Vec2<T> {
+        // TODO: just transmute?
+        let x = unsafe { mem::replace(&mut v[0], mem::uninitialized()) };
+        let y = unsafe { mem::replace(&mut v[1], mem::uninitialized()) };
+        mem::forget(v);
+        vec2(x, y)
+    }
+}
+
 impl<T> Deref for Vec2<T> {
     type Target = [T; 2];
     fn deref(&self) -> &[T; 2] {

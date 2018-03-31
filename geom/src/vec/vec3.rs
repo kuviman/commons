@@ -12,6 +12,17 @@ pub fn vec3<T>(x: T, y: T, z: T) -> Vec3<T> {
     Vec3 { x, y, z }
 }
 
+impl<T> From<[T; 3]> for Vec3<T> {
+    fn from(mut v: [T; 3]) -> Vec3<T> {
+        // TODO: just transmute?
+        let x = unsafe { mem::replace(&mut v[0], mem::uninitialized()) };
+        let y = unsafe { mem::replace(&mut v[1], mem::uninitialized()) };
+        let z = unsafe { mem::replace(&mut v[2], mem::uninitialized()) };
+        mem::forget(v);
+        vec3(x, y, z)
+    }
+}
+
 impl<T> Deref for Vec3<T> {
     type Target = [T; 3];
     fn deref(&self) -> &[T; 3] {
