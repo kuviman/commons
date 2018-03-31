@@ -12,6 +12,19 @@ pub fn vec3<T>(x: T, y: T, z: T) -> Vec3<T> {
     Vec3 { x, y, z }
 }
 
+impl<T> Deref for Vec3<T> {
+    type Target = [T; 3];
+    fn deref(&self) -> &[T; 3] {
+        unsafe { mem::transmute(self) }
+    }
+}
+
+impl<T> DerefMut for Vec3<T> {
+    fn deref_mut(&mut self) -> &mut [T; 3] {
+        unsafe { mem::transmute(self) }
+    }
+}
+
 impl<T> Vec3<T> {
     pub fn extend(self, w: T) -> Vec4<T> {
         vec4(self.x, self.y, self.z, w)
