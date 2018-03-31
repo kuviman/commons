@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["vec2",""],["vec3",""],["vec4",""]],"struct":[["Mat4",""],["Rect",""],["Vec2",""],["Vec3",""],["Vec4",""]]});

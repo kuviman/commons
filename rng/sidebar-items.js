@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["choose","Chooses random element"],["gen",""],["gen_range",""],["shuffle",""]]});

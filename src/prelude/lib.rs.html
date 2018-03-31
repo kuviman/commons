@@ -10,8 +10,11 @@
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +31,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -108,30 +119,10 @@
 <span id="63">63</span>
 <span id="64">64</span>
 <span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
-<span id="82">82</span>
-<span id="83">83</span>
 </pre><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>)]</span>
 
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
-<span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
-<span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rand</span>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
@@ -164,46 +155,30 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>;
-
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num</span>::{<span class="ident">clamp</span>, <span class="ident">Float</span>, <span class="ident">Integer</span>, <span class="ident">Num</span>};
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">owning_ref</span>::{<span class="ident">OwningHandle</span>, <span class="ident">OwningRef</span>, <span class="ident">OwningRefMut</span>};
-
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rand</span>::{<span class="ident">random</span>, <span class="ident">thread_rng</span>, <span class="ident">Rng</span>};
-
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">random_range</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span> <span class="op">+</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">range</span>::<span class="ident">SampleRange</span><span class="op">&gt;</span>(<span class="ident">low</span>: <span class="ident">T</span>, <span class="ident">high</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
-    <span class="ident">thread_rng</span>().<span class="ident">gen_range</span>(<span class="ident">low</span>, <span class="ident">high</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min_max</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
+    <span class="kw">if</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="ident">b</span> {
+        (<span class="ident">a</span>, <span class="ident">b</span>)
+    } <span class="kw">else</span> {
+        (<span class="ident">b</span>, <span class="ident">a</span>)
+    }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">random_shuffle</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]) {
-    <span class="ident">thread_rng</span>().<span class="ident">shuffle</span>(<span class="ident">values</span>);
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">min</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+    <span class="ident">min_max</span>(<span class="ident">a</span>, <span class="ident">b</span>).<span class="number">0</span>
 }
 
-<span class="doccomment">/// Chooses random element</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Panics</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Panics if values is an empty slice</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">random_choose</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">values</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
-    <span class="ident">thread_rng</span>()
-        .<span class="ident">choose</span>(<span class="ident">values</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;Can not choose from an empty slice&quot;</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+    <span class="ident">min_max</span>(<span class="ident">a</span>, <span class="ident">b</span>).<span class="number">1</span>
 }
 
-<span class="kw">mod</span> <span class="ident">color</span>;
-<span class="kw">mod</span> <span class="ident">algebra</span>;
 <span class="kw">mod</span> <span class="ident">range</span>;
-<span class="kw">mod</span> <span class="ident">timer</span>;
 <span class="kw">mod</span> <span class="ident">acell</span>;
 <span class="kw">mod</span> <span class="ident">stable_fn</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">color</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">algebra</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">range</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">timer</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">acell</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">stable_fn</span>::<span class="kw-2">*</span>;
 
@@ -224,20 +199,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
