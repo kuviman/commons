@@ -2,6 +2,8 @@
 
 extern crate prelude;
 
+pub(crate) use prelude::*;
+
 mod consts;
 mod hsv;
 mod hex;
@@ -22,5 +24,18 @@ impl Color {
     }
     pub fn rgba(r: f32, g: f32, b: f32, a: f32) -> Self {
         Color { r, g, b, a }
+    }
+}
+
+impl Deref for Color {
+    type Target = [f32; 4];
+    fn deref(&self) -> &[f32; 4] {
+        unsafe { mem::transmute(self) }
+    }
+}
+
+impl DerefMut for Color {
+    fn deref_mut(&mut self) -> &mut [f32; 4] {
+        unsafe { mem::transmute(self) }
     }
 }
