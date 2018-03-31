@@ -1,6 +1,6 @@
 language: rust
 script:
-  - cargo test --verbose --all
+  - cargo test --all
 before_deploy:
   - cargo doc --no-deps --all
   - >-

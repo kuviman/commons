@@ -1,2 +1,2 @@
 [workspace]
-members = ["prelude"]
+members = ["color", "geom", "prelude", "timer"]

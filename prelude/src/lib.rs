@@ -35,13 +35,10 @@ pub use std::cmp::{Eq, Ord, PartialEq, PartialOrd};
 pub use std::mem;
 #[doc(no_inline)]
 pub use std::thread;
-
 #[doc(no_inline)]
 pub use num::{clamp, Float, Integer, Num};
-
 #[doc(no_inline)]
 pub use owning_ref::{OwningHandle, OwningRef, OwningRefMut};
-
 #[doc(no_inline)]
 pub use rand::{random, thread_rng, Rng};
 
@@ -64,17 +61,27 @@ pub fn random_choose<T>(values: &[T]) -> &T {
         .expect("Can not choose from an empty slice")
 }
 
-mod color;
-mod algebra;
+pub fn min_max<T: PartialOrd>(a: T, b: T) -> (T, T) {
+    if a < b {
+        (a, b)
+    } else {
+        (b, a)
+    }
+}
+
+pub fn min<T: PartialOrd>(a: T, b: T) -> T {
+    min_max(a, b).0
+}
+
+pub fn max<T: PartialOrd>(a: T, b: T) -> T {
+    min_max(a, b).1
+}
+
 mod range;
-mod timer;
 mod acell;
 mod stable_fn;
 
-pub use color::*;
-pub use algebra::*;
 pub use range::*;
-pub use timer::*;
 pub use acell::*;
 pub use stable_fn::*;
 
