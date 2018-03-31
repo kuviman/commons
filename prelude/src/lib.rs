@@ -1,7 +1,6 @@
 #![deny(warnings)]
 
 pub extern crate num;
-pub extern crate owning_ref;
 pub extern crate rand;
 
 #[doc(no_inline)]
@@ -37,8 +36,6 @@ pub use std::mem;
 pub use std::thread;
 #[doc(no_inline)]
 pub use num::{clamp, Float, Integer, Num};
-#[doc(no_inline)]
-pub use owning_ref::{OwningHandle, OwningRef, OwningRefMut};
 #[doc(no_inline)]
 pub use rand::{random, thread_rng, Rng};
 
