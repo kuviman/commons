@@ -1,3 +1,7 @@
+//! Prelude is designed to be imported with `use prelude::*`.
+//!
+//! Contains reexports from std & basic often needed stuff.
+
 #![deny(warnings)]
 
 extern crate num_integer;
@@ -39,6 +43,13 @@ pub use num_traits::{clamp, Float, Num};
 #[doc(no_inline)]
 pub use num_integer::Integer;
 
+/// Sort two values.
+///
+/// # Examples
+/// ```
+/// use prelude::*;
+/// assert_eq!(min_max(6, 3), (3, 6));
+/// ```
 pub fn min_max<T: PartialOrd>(a: T, b: T) -> (T, T) {
     if a < b {
         (a, b)
@@ -47,10 +58,24 @@ pub fn min_max<T: PartialOrd>(a: T, b: T) -> (T, T) {
     }
 }
 
+/// Get minimum of two values.
+///
+/// # Examples
+/// ```
+/// use prelude::*;
+/// assert_eq!(min(1, 2), 1);
+/// ```
 pub fn min<T: PartialOrd>(a: T, b: T) -> T {
     min_max(a, b).0
 }
 
+/// Get maximum of two values.
+///
+/// # Examples
+/// ```
+/// use prelude::*;
+/// assert_eq!(max(1, 2), 2);
+/// ```
 pub fn max<T: PartialOrd>(a: T, b: T) -> T {
     min_max(a, b).1
 }
@@ -63,6 +88,7 @@ pub use range::*;
 pub use acell::*;
 pub use stable_fn::*;
 
+/// Shortcut for Default::default.
 pub fn default<T: Default>() -> T {
     T::default()
 }
