@@ -106,7 +106,7 @@
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
-<span class="comment">// A rect with sides parralel to x and y axis.</span>
+<span class="doccomment">/// A rect with sides parralel to x and y axis.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Rect</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Num</span> <span class="op">+</span> <span class="ident">Copy</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">bottom_left</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
