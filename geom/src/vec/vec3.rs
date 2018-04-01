@@ -1,5 +1,6 @@
 use ::*;
 
+/// 3-d vector.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Vec3<T> {
@@ -8,6 +9,13 @@ pub struct Vec3<T> {
     pub z: T,
 }
 
+/// Construct a 3-d vector with given components.
+///
+/// # Example
+/// ```
+/// use geom::*;
+/// let v = vec3(1, 2, 3);
+/// ```
 pub fn vec3<T>(x: T, y: T, z: T) -> Vec3<T> {
     Vec3 { x, y, z }
 }
@@ -43,9 +51,24 @@ impl<T> Vec3<T> {
 }
 
 impl<T: Copy + Num> Vec3<T> {
+    /// Calculate dot product of two vectors.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// assert_eq!(Vec3::dot(vec3(1, 2, 3), vec3(3, 4, 5)), 26);
+    /// ```
     pub fn dot(a: Self, b: Self) -> T {
         a.x * b.x + a.y * b.y + a.z * b.z
     }
+
+    /// Calculate cross product of two vectors.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// assert_eq!(Vec3::cross(vec3(1, 2, 3), vec3(3, 4, 5)), vec3(-2, 4, -2));
+    /// ```
     pub fn cross(a: Self, b: Self) -> Self {
         Self {
             x: a.y * b.z - a.z * b.y,
@@ -56,9 +79,19 @@ impl<T: Copy + Num> Vec3<T> {
 }
 
 impl<T: Float> Vec3<T> {
+    /// Normalize a vector.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let v: Vec3<f64> = vec3(1.0, 2.0, 3.0);
+    /// assert!((v.normalize().len() - 1.0).abs() < 1e-5);
+    /// ```
     pub fn normalize(self) -> Self {
         self / self.len()
     }
+
+    /// Calculate length of a vector.
     pub fn len(self) -> T {
         T::sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
     }

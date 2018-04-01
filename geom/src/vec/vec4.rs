@@ -1,5 +1,6 @@
 use ::*;
 
+/// 4-d vector.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Vec4<T> {
@@ -9,6 +10,13 @@ pub struct Vec4<T> {
     pub w: T,
 }
 
+/// Construct a 4-d vector with given components.
+///
+/// # Example
+/// ```
+/// use geom::*;
+/// let v = vec4(1, 2, 3, 4);
+/// ```
 pub fn vec4<T>(x: T, y: T, z: T, w: T) -> Vec4<T> {
     Vec4 { x, y, z, w }
 }
@@ -39,6 +47,13 @@ impl<T> DerefMut for Vec4<T> {
 }
 
 impl<T: Copy + Num> Vec4<T> {
+    /// Calculate dot product of two vectors.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// assert_eq!(Vec4::dot(vec4(1, 2, 3, 4), vec4(3, 4, 5, 6)), 50);
+    /// ```
     pub fn dot(a: Self, b: Self) -> T {
         a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
     }

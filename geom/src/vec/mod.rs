@@ -1,15 +1,11 @@
 use ::*;
 
 mod vec2;
-
-pub use self::vec2::*;
-
 mod vec3;
-
-pub use self::vec3::*;
-
 mod vec4;
 
+pub use self::vec2::*;
+pub use self::vec3::*;
 pub use self::vec4::*;
 
 macro_rules! left_mul_impl {
