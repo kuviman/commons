@@ -1,10 +1,24 @@
 use ::*;
 
 impl Color {
+    /// Construct Color converting from HSV to RGB. Alpha value will be equal to 1.0.
+    ///
+    /// # Examples
+    /// ```
+    /// use color::*;
+    /// let color = Color::hsv(0.33, 1.0, 1.0); // Green
+    /// ```
     pub fn hsv(h: f32, s: f32, v: f32) -> Self {
         Self::hsva(h, s, v, 1.0)
     }
 
+    /// Construct Color converting from HSV to RGB and given alpha value.
+    ///
+    /// # Examples
+    /// ```
+    /// use color::*;
+    /// let color = Color::hsva(0.5, 1.0, 1.0, 0.5);
+    /// ```
     pub fn hsva(h: f32, s: f32, v: f32, a: f32) -> Self {
         let h = (h - h.floor()) * 6.0;
         let r;
