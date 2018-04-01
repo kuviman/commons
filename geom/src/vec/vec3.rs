@@ -42,7 +42,7 @@ impl<T> Vec3<T> {
     }
 }
 
-impl<T: Copy + num::Num> Vec3<T> {
+impl<T: Copy + Num> Vec3<T> {
     pub fn dot(a: Self, b: Self) -> T {
         a.x * b.x + a.y * b.y + a.z * b.z
     }

@@ -1,6 +1,7 @@
 #![deny(warnings)]
 
-pub extern crate num;
+extern crate num_integer;
+extern crate num_traits;
 
 #[doc(no_inline)]
 pub use std::rc::Rc;
@@ -34,7 +35,9 @@ pub use std::mem;
 #[doc(no_inline)]
 pub use std::thread;
 #[doc(no_inline)]
-pub use num::{clamp, Float, Integer, Num};
+pub use num_traits::{clamp, Float, Num};
+#[doc(no_inline)]
+pub use num_integer::Integer;
 
 pub fn min_max<T: PartialOrd>(a: T, b: T) -> (T, T) {
     if a < b {
