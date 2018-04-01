@@ -6,7 +6,7 @@ const EPS: f64 = 1e-5;
 
 #[test]
 fn test_mat_inverse_random() {
-    fn check(m: Mat4) {
+    fn check(m: Mat4<f64>) {
         let m_inv = m.inverse();
         let mul = m * m_inv;
         for i in 0..4 {

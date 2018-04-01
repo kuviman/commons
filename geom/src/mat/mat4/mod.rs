@@ -8,7 +8,7 @@ mod transform;
 /// 4x4 matrix
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct Mat4<T = f64>([[T; 4]; 4]);
+pub struct Mat4<T>([[T; 4]; 4]);
 
 impl<T> Mat4<T> {
     /// Construct a matrix.

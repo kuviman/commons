@@ -2,7 +2,7 @@ use ::*;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
-pub struct Vec3<T = f64> {
+pub struct Vec3<T> {
     pub x: T,
     pub y: T,
     pub z: T,
