@@ -86,9 +86,27 @@
 <span id="30">30</span>
 <span id="31">31</span>
 <span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
+<span class="comment">// A rect with sides parralel to x and y axis.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Rect</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Num</span> <span class="op">+</span> <span class="ident">Copy</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">bottom_left</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
@@ -96,6 +114,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Num</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">PartialOrd</span><span class="op">&gt;</span> <span class="ident">Rect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Construct a rect from corner points.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_corners</span>(<span class="ident">p1</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">p2</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> (<span class="ident">min_x</span>, <span class="ident">max_x</span>) <span class="op">=</span> <span class="ident">min_max</span>(<span class="ident">p1</span>.<span class="ident">x</span>, <span class="ident">p2</span>.<span class="ident">x</span>);
         <span class="kw">let</span> (<span class="ident">min_y</span>, <span class="ident">max_y</span>) <span class="op">=</span> <span class="ident">min_max</span>(<span class="ident">p1</span>.<span class="ident">y</span>, <span class="ident">p2</span>.<span class="ident">y</span>);
@@ -104,16 +123,31 @@
             <span class="ident">top_right</span>: <span class="ident">vec2</span>(<span class="ident">max_x</span>, <span class="ident">max_y</span>),
         }
     }
+
+    <span class="doccomment">/// Get rect&#39;s width.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">width</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
         <span class="self">self</span>.<span class="ident">top_right</span>.<span class="ident">x</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">bottom_left</span>.<span class="ident">x</span>
     }
+
+    <span class="doccomment">/// Get rect&#39;s height.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">height</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
         <span class="self">self</span>.<span class="ident">top_right</span>.<span class="ident">y</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">bottom_left</span>.<span class="ident">x</span>
     }
+
+    <span class="doccomment">/// Get rect&#39;s size.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">vec2</span>(<span class="self">self</span>.<span class="ident">width</span>(), <span class="self">self</span>.<span class="ident">height</span>())
     }
 
+    <span class="doccomment">/// Check if a point is inside the rect.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use geom::*;</span>
+    <span class="doccomment">/// let rect = Rect::from_corners(vec2(1, 2), vec2(3, 4));</span>
+    <span class="doccomment">/// assert!(rect.contains(vec2(2, 3)));</span>
+    <span class="doccomment">/// assert!(!rect.contains(vec2(5, 5)));</span>
+    <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">point</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">bottom_left</span>.<span class="ident">x</span> <span class="op">&lt;=</span> <span class="ident">point</span>.<span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="ident">point</span>.<span class="ident">x</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">top_right</span>.<span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">bottom_left</span>.<span class="ident">y</span> <span class="op">&lt;=</span> <span class="ident">point</span>.<span class="ident">y</span>
             <span class="op">&amp;&amp;</span> <span class="ident">point</span>.<span class="ident">y</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">top_right</span>.<span class="ident">y</span>

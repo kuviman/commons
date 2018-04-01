@@ -87,11 +87,17 @@
 <span id="31">31</span>
 <span id="32">32</span>
 <span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! Timer.</span>
+
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>)]</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">prelude</span>;
 
+<span class="doccomment">/// Timer can be used to track time since some instant.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Timer</span> {
     <span class="ident">start</span>: <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Instant</span>,
 }
@@ -101,19 +107,19 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Timer</span> {
-    <span class="doccomment">/// Constructs a new timer</span>
+    <span class="doccomment">/// Constructs a new timer.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">start</span>: <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Instant</span>::<span class="ident">now</span>(),
         }
     }
 
-    <span class="doccomment">/// Get time elapsed (in seconds) since last reset</span>
+    <span class="doccomment">/// Get time elapsed (in seconds) since last reset.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elapsed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
         <span class="ident">to_secs</span>(<span class="self">self</span>.<span class="ident">start</span>.<span class="ident">elapsed</span>())
     }
 
-    <span class="doccomment">/// Reset, and get time elapsed (in seconds) since last reset</span>
+    <span class="doccomment">/// Reset, and get time elapsed (in seconds) since last reset.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tick</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
         <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Instant</span>::<span class="ident">now</span>();
         <span class="kw">let</span> <span class="ident">delta</span> <span class="op">=</span> <span class="ident">now</span>.<span class="ident">duration_since</span>(<span class="self">self</span>.<span class="ident">start</span>);

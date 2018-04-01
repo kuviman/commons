@@ -99,18 +99,41 @@
 <span id="43">43</span>
 <span id="44">44</span>
 <span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
+<span class="doccomment">/// 4-d vector.</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vec4</span><span class="op">&lt;</span><span class="ident">T</span> <span class="op">=</span> <span class="ident">f64</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Vec4</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">x</span>: <span class="ident">T</span>,
     <span class="kw">pub</span> <span class="ident">y</span>: <span class="ident">T</span>,
     <span class="kw">pub</span> <span class="ident">z</span>: <span class="ident">T</span>,
     <span class="kw">pub</span> <span class="ident">w</span>: <span class="ident">T</span>,
 }
 
+<span class="doccomment">/// Construct a 4-d vector with given components.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use geom::*;</span>
+<span class="doccomment">/// let v = vec4(1, 2, 3, 4);</span>
+<span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">vec4</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>, <span class="ident">z</span>: <span class="ident">T</span>, <span class="ident">w</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Vec4</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="ident">Vec4</span> { <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">z</span>, <span class="ident">w</span> }
 }
@@ -140,7 +163,14 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">num</span>::<span class="ident">Num</span><span class="op">&gt;</span> <span class="ident">Vec4</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">Num</span><span class="op">&gt;</span> <span class="ident">Vec4</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Calculate dot product of two vectors.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use geom::*;</span>
+    <span class="doccomment">/// assert_eq!(Vec4::dot(vec4(1, 2, 3, 4), vec4(3, 4, 5, 6)), 50);</span>
+    <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dot</span>(<span class="ident">a</span>: <span class="self">Self</span>, <span class="ident">b</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
         <span class="ident">a</span>.<span class="ident">x</span> <span class="op">*</span> <span class="ident">b</span>.<span class="ident">x</span> <span class="op">+</span> <span class="ident">a</span>.<span class="ident">y</span> <span class="op">*</span> <span class="ident">b</span>.<span class="ident">y</span> <span class="op">+</span> <span class="ident">a</span>.<span class="ident">z</span> <span class="op">*</span> <span class="ident">b</span>.<span class="ident">z</span> <span class="op">+</span> <span class="ident">a</span>.<span class="ident">w</span> <span class="op">*</span> <span class="ident">b</span>.<span class="ident">w</span>
     }
