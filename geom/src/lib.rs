@@ -1,3 +1,5 @@
+//! Linear algebra and stuff (vectors and matrices).
+
 #![deny(warnings)]
 
 extern crate prelude;
