@@ -1,10 +1,23 @@
 use ::*;
 
+/// 4x4 matrix
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Mat4<T = f64>([[T; 4]; 4]);
 
 impl<T> Mat4<T> {
+    /// Construct a matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::new([
+    ///     [1, 2, 3, 4],
+    ///     [3, 4, 5, 6],
+    ///     [5, 6, 7, 8],
+    ///     [0, 5, 2, 9],
+    /// ]);
+    /// ```
     pub fn new(values: [[T; 4]; 4]) -> Self {
         Mat4(values)
     }
@@ -149,7 +162,7 @@ impl<T: Num + Copy + DivAssign> DivAssign<T> for Mat4<T> {
     }
 }
 
-impl<T: Float> Mul<Vec4<T>> for Mat4<T> {
+impl<T: Num + Copy> Mul<Vec4<T>> for Mat4<T> {
     type Output = Vec4<T>;
 
     fn mul(self, rhs: Vec4<T>) -> Vec4<T> {
@@ -163,11 +176,24 @@ impl<T: Float> Mul<Vec4<T>> for Mat4<T> {
 }
 
 impl<T> Mat4<T> {
+    /// Get transposed matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::translate(vec3(1, 2, 3));
+    /// let matrix_transposed = matrix.transpose();
+    /// for i in 0..4 {
+    ///     for j in 0..4 {
+    ///         assert_eq!(matrix[i][j], matrix_transposed[j][i]);
+    ///     }
+    /// }
+    /// ```
     pub fn transpose(mut self) -> Self {
         let mut result: Self = unsafe { mem::uninitialized() };
         for i in 0..4 {
             for j in 0..4 {
-                mem::swap(&mut result[i][j], &mut self[i][j]);
+                mem::swap(&mut result[i][j], &mut self[j][i]);
             }
         }
         mem::forget(self);
@@ -176,9 +202,34 @@ impl<T> Mat4<T> {
 }
 
 impl<T: Num + Copy> Mat4<T> {
+    /// Construct zero matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::<i32>::zero();
+    /// for i in 0..4 {
+    ///     for j in 0..4 {
+    ///         assert_eq!(matrix[i][j], 0);
+    ///     }
+    /// }
+    /// ```
     pub fn zero() -> Self {
         Mat4([[T::zero(); 4]; 4])
     }
+
+    /// Construct identity matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::<i32>::identity();
+    /// for i in 0..4 {
+    ///     for j in 0..4 {
+    ///         assert_eq!(matrix[i][j], if i == j { 1 } else { 0 });
+    ///     }
+    /// }
+    /// ```
     pub fn identity() -> Self {
         let mut result = Self::zero();
         for i in 0..4 {
@@ -187,9 +238,26 @@ impl<T: Num + Copy> Mat4<T> {
         result
     }
 
+    /// Construct a uniform scale matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::scale_uniform(2);
+    /// assert_eq!(matrix * vec4(1, 2, 3, 1), vec4(2, 4, 6, 1));
+    /// ```
     pub fn scale_uniform(factor: T) -> Self {
         Self::scale(vec3(factor, factor, factor))
     }
+
+    /// Construct a scale matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::scale(vec3(1, 2, 3));
+    /// assert_eq!(matrix * vec4(1, 2, 3, 1), vec4(1, 4, 9, 1));
+    /// ```
     pub fn scale(factor: Vec3<T>) -> Self {
         let mut result = Self::zero();
         result[0][0] = factor.x;
@@ -199,6 +267,14 @@ impl<T: Num + Copy> Mat4<T> {
         result
     }
 
+    /// Construct a translation matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = Mat4::translate(vec3(3, 2, 1));
+    /// assert_eq!(matrix * vec4(1, 2, 3, 1), vec4(4, 4, 4, 1));
+    /// ```
     pub fn translate(dv: Vec3<T>) -> Self {
         let mut result = Self::identity();
         result[0][3] = dv.x;
@@ -209,6 +285,20 @@ impl<T: Num + Copy> Mat4<T> {
 }
 
 impl<T: Float> Mat4<T> {
+    /// Get inverse matrix.
+    ///
+    /// # Examples
+    /// ```
+    /// use geom::*;
+    /// let matrix = matrix::rotate_x(0.123);
+    /// let matrix_inv = matrix.inverse();
+    /// let mult = matrix * matrix_inv;
+    /// for i in 0..4 {
+    ///     for j in 0..4 {
+    ///         assert!((mult[i][j] - if i == j { 1.0 } else { 0.0 }).abs() < 1e-5);
+    ///     }
+    /// }
+    /// ```
     pub fn inverse(self) -> Self {
         let b00 = self[0][0] * self[1][1] - self[1][0] * self[0][1];
         let b01 = self[0][0] * self[2][1] - self[2][0] * self[0][1];
@@ -259,6 +349,7 @@ impl<T: Float> Mat4<T> {
         }
     }
 
+    /// Construct matrix rotating around x axis.
     pub fn rotate_x(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
@@ -269,6 +360,8 @@ impl<T: Float> Mat4<T> {
         result[2][2] = cs;
         result
     }
+
+    /// Construct matrix rotating around y axis.
     pub fn rotate_y(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
@@ -279,6 +372,8 @@ impl<T: Float> Mat4<T> {
         result[0][0] = cs;
         result
     }
+
+    /// Construct matrix rotating around z axis.
     pub fn rotate_z(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
@@ -290,12 +385,14 @@ impl<T: Float> Mat4<T> {
         result
     }
 
+    /// Construct prespective projection matrix.
     pub fn perspective(fov: T, aspect: T, near: T, far: T) -> Self {
         let ymax = near * (fov / (T::one() + T::one())).tan();
         let xmax = ymax * aspect;
         Self::frustum(-xmax, xmax, -ymax, ymax, near, far)
     }
 
+    /// Construct frustum projection matrix.
     pub fn frustum(left: T, right: T, bottom: T, top: T, near: T, far: T) -> Self {
         let double_near = near + near;
         let width = right - left;
