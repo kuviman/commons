@@ -1,6 +1,6 @@
 use ::*;
 
-// A rect with sides parralel to x and y axis.
+/// A rect with sides parralel to x and y axis.
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Rect<T: Num + Copy> {
     pub bottom_left: Vec2<T>,
