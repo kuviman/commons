@@ -1,4 +1,4 @@
-//! Provides Color definition and operations
+//! Provides Color definition and operations.
 
 #![deny(warnings)]
 
