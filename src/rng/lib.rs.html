@@ -162,6 +162,8 @@
 <span id="106">106</span>
 <span id="107">107</span>
 <span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Random number generation.</span>
 
@@ -174,7 +176,7 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">stdweb</span>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rand</span>::{<span class="ident">Rng</span>, <span class="ident">distributions</span>::{<span class="ident">Distribution</span>, <span class="ident">Uniform</span>}};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rand</span>::{<span class="ident">Rng</span>, <span class="ident">distributions</span>::{<span class="ident">Distribution</span>, <span class="ident">Standard</span>}};
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>, <span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">thread_rng</span>;
@@ -228,13 +230,15 @@
 <span class="doccomment">/// Generate a random value.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gen</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-&gt;</span> <span class="ident">T</span>
 <span class="kw">where</span>
-    <span class="ident">Uniform</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">Standard</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 {
     <span class="ident">thread_rng</span>().<span class="ident">gen</span>()
 }
 
 <span class="doccomment">/// Generate a random value from a given range.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gen_range</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span> <span class="op">+</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">range</span>::<span class="ident">SampleRange</span><span class="op">&gt;</span>(<span class="ident">range</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gen_range</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">PartialOrd</span> <span class="op">+</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">uniform</span>::<span class="ident">SampleUniform</span><span class="op">&gt;</span>(
+    <span class="ident">range</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="ident">thread_rng</span>().<span class="ident">gen_range</span>(<span class="ident">range</span>.<span class="ident">start</span>, <span class="ident">range</span>.<span class="ident">end</span>)
 }
 
