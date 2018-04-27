@@ -9,7 +9,7 @@ extern crate rand;
 extern crate stdweb;
 
 #[doc(no_inline)]
-pub use rand::{Rng, distributions::{Distribution, Uniform}};
+pub use rand::{Rng, distributions::{Distribution, Standard}};
 #[cfg(any(target_os = "emscripten", not(target_arch = "wasm32")))]
 #[doc(no_inline)]
 pub use rand::thread_rng;
@@ -63,13 +63,15 @@ pub fn thread_rng() -> ThreadRng {
 /// Generate a random value.
 pub fn gen<T>() -> T
 where
-    Uniform: Distribution<T>,
+    Standard: Distribution<T>,
 {
     thread_rng().gen()
 }
 
 /// Generate a random value from a given range.
-pub fn gen_range<T: PartialOrd + rand::distributions::range::SampleRange>(range: Range<T>) -> T {
+pub fn gen_range<T: PartialOrd + rand::distributions::uniform::SampleUniform>(
+    range: Range<T>,
+) -> T {
     thread_rng().gen_range(range.start, range.end)
 }
 
