@@ -4,60 +4,63 @@
 
 extern crate prelude;
 extern crate rand;
-#[cfg(not(any(target_os = "emscripten", not(target_arch = "wasm32"))))]
+#[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
 #[macro_use]
 extern crate stdweb;
 
 #[doc(no_inline)]
 pub use rand::{Rng, distributions::{Distribution, Uniform}};
-#[cfg(any(target_os = "emscripten", not(target_arch = "wasm32")))]
-#[doc(no_inline)]
-pub use rand::thread_rng;
 
 pub(crate) use prelude::*;
 
-#[cfg(not(any(target_os = "emscripten", not(target_arch = "wasm32"))))]
-pub struct ThreadRng;
+#[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+mod web_rng {
+    use ::*;
 
-#[cfg(not(any(target_os = "emscripten", not(target_arch = "wasm32"))))]
-fn global_rng() -> &'static mut rand::StdRng {
-    static mut GLOBAL_RNG: Option<rand::StdRng> = None;
-    unsafe {
-        if GLOBAL_RNG.is_none() {
-            use stdweb::unstable::TryInto;
-            fn gen_byte() -> u8 {
-                let x: f64 = js!{ return Math.random(); }.try_into().unwrap();
-                clamp(x * 256.0, 0.0, 255.0) as u8
+    fn global_rng() -> &'static mut rand::StdRng {
+        static mut GLOBAL_RNG: Option<rand::StdRng> = None;
+        unsafe {
+            if GLOBAL_RNG.is_none() {
+                use stdweb::unstable::TryInto;
+                fn gen_byte() -> u8 {
+                    let x: f64 = js!{ return Math.random(); }.try_into().unwrap();
+                    clamp(x * 256.0, 0.0, 255.0) as u8
+                }
+                let mut seed: [u8; 32] = mem::uninitialized();
+                for x in &mut seed {
+                    *x = gen_byte();
+                }
+                GLOBAL_RNG = Some(rand::SeedableRng::from_seed(seed));
             }
-            let mut seed: [u8; 32] = mem::uninitialized();
-            for x in &mut seed {
-                *x = gen_byte();
-            }
-            GLOBAL_RNG = Some(rand::SeedableRng::from_seed(seed));
+            GLOBAL_RNG.as_mut().unwrap()
         }
-        GLOBAL_RNG.as_mut().unwrap()
+    }
+
+    pub struct StdRng;
+
+    impl rand::RngCore for StdRng {
+        fn next_u32(&mut self) -> u32 {
+            global_rng().next_u32()
+        }
+        fn next_u64(&mut self) -> u64 {
+            global_rng().next_u64()
+        }
+        fn fill_bytes(&mut self, dest: &mut [u8]) {
+            global_rng().fill_bytes(dest)
+        }
+        fn try_fill_bytes(&mut self, dest: &mut [u8]) -> Result<(), rand::Error> {
+            global_rng().try_fill_bytes(dest)
+        }
     }
 }
 
-#[cfg(not(any(target_os = "emscripten", not(target_arch = "wasm32"))))]
-impl rand::RngCore for ThreadRng {
-    fn next_u32(&mut self) -> u32 {
-        global_rng().next_u32()
-    }
-    fn next_u64(&mut self) -> u64 {
-        global_rng().next_u64()
-    }
-    fn fill_bytes(&mut self, dest: &mut [u8]) {
-        global_rng().fill_bytes(dest)
-    }
-    fn try_fill_bytes(&mut self, dest: &mut [u8]) -> Result<(), rand::Error> {
-        global_rng().try_fill_bytes(dest)
-    }
+#[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+pub fn default() -> web_rng::StdRng {
+    web_rng::StdRng
 }
-
-#[cfg(not(any(target_os = "emscripten", not(target_arch = "wasm32"))))]
-pub fn thread_rng() -> ThreadRng {
-    ThreadRng
+#[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+pub fn default() -> rand::ThreadRng {
+    rand::thread_rng()
 }
 
 /// Generate a random value.
@@ -65,17 +68,17 @@ pub fn gen<T>() -> T
 where
     Uniform: Distribution<T>,
 {
-    thread_rng().gen()
+    default().gen()
 }
 
 /// Generate a random value from a given range.
 pub fn gen_range<T: PartialOrd + rand::distributions::range::SampleRange>(range: Range<T>) -> T {
-    thread_rng().gen_range(range.start, range.end)
+    default().gen_range(range.start, range.end)
 }
 
 /// Randomly shuffle an array.
 pub fn shuffle<T>(values: &mut [T]) {
-    thread_rng().shuffle(values);
+    default().shuffle(values);
 }
 
 /// Choose a random element from an array.
@@ -84,7 +87,7 @@ pub fn shuffle<T>(values: &mut [T]) {
 ///
 /// Panics if values is an empty slice.
 pub fn choose<T>(values: &[T]) -> &T {
-    thread_rng()
+    default()
         .choose(values)
         .expect("Can not choose from an empty slice")
 }
