@@ -9,7 +9,7 @@ extern crate rand;
 extern crate stdweb;
 
 #[doc(no_inline)]
-pub use rand::{Rng, distributions::{Distribution, Uniform}};
+pub use rand::{Rng, distributions::{Distribution, Standard}};
 
 pub(crate) use prelude::*;
 
@@ -66,7 +66,7 @@ pub fn default() -> rand::ThreadRng {
 /// Generate a random value.
 pub fn gen<T>() -> T
 where
-    Uniform: Distribution<T>,
+    Standard: Distribution<T>,
 {
     default().gen()
 }
