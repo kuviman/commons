@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["choose","Choose a random element from an array."],["gen","Generate a random value."],["gen_range","Generate a random value from a given range."],["shuffle","Randomly shuffle an array."]]});
+initSidebarItems({"fn":[["choose","Choose a random element from an array."],["default",""],["gen","Generate a random value."],["gen_range","Generate a random value from a given range."],["shuffle","Randomly shuffle an array."]]});
