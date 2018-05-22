@@ -40,6 +40,15 @@ impl<T> DerefMut for Mat4<T> {
     }
 }
 
+impl<T> Mat4<T> {
+    pub fn as_flat_array(&self) -> &[T; 16] {
+        unsafe { mem::transmute(self) }
+    }
+    pub fn as_flat_array_mut(&mut self) -> &mut [T; 16] {
+        unsafe { mem::transmute(self) }
+    }
+}
+
 impl<T: Num + Copy> Mat4<T> {
     /// Construct zero matrix.
     ///
