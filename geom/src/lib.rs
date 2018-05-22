@@ -6,10 +6,10 @@ extern crate prelude;
 
 pub(crate) use prelude::*;
 
-mod vec;
 mod mat;
 mod rect;
+mod vec;
 
-pub use self::vec::*;
 pub use self::mat::*;
 pub use self::rect::*;
+pub use self::vec::*;

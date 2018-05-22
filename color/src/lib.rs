@@ -7,9 +7,9 @@ extern crate prelude;
 pub(crate) use prelude::*;
 
 mod consts;
-mod hsv;
-mod hex;
 mod extra;
+mod hex;
+mod hsv;
 
 /// RGBA color. Component values should be in range [0.0, 1.0].
 #[repr(C)]

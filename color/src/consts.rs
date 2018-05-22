@@ -1,10 +1,10 @@
 use ::*;
 
 macro_rules! rgb {
-    ($r: expr, $g: expr, $b: expr) => {
+    ($r:expr, $g:expr, $b:expr) => {
         rgb!($r, $g, $b, 1.0)
     };
-    ($r: expr, $g: expr, $b: expr, $a: expr) => {
+    ($r:expr, $g:expr, $b:expr, $a:expr) => {
         Color {
             r: $r,
             g: $g,
